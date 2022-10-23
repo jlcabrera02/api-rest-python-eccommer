@@ -11,22 +11,20 @@ class UsuariosController:
       sql = "SELECT id_usuario, nombres, apellido_paterno, apellido_materno, activo, usuario, fecha_registro, ultima_fecha_ingreso, rol FROM usuarios"
       if activoStatus != None:
         sql += f" WHERE activo = '{activoStatus}'"
-      resp = obtenerTodo(sql,request, "admin")
-      if resp["statusText"] == 'false':
-        return jsonify(resp)
+      resp = obtenerTodo(sql,request,"admin")
       return jsonify(resp)
     except Exception as err:
-      print(err)
       return jsonify(res.cod_404("Error al obtener los datos"))
   
   def getOne(self, id):
     try:
       sql = f"SELECT id_usuario, nombres, apellido_paterno, apellido_materno, activo, usuario, fecha_registro, ultima_fecha_ingreso, rol FROM usuarios WHERE id_usuario = {id}"
-      resp = obtenerUno(sql,request,'simple',id)
-      if resp["statusText"] == 'false':
-        return jsonify(resp)
+
+      resp = obtenerUno(sql,request,'simple', msgError=f"No se encontro un usuario con el id {id}", msgSuccess="Usuario encontrado")
+      
       return jsonify(resp)
     except Exception as err:
+      print(err)
       return jsonify(res.cod_404("Error al consultar datos"))
   
   def getForWeeks(self, semanas, orden):
@@ -42,7 +40,6 @@ class UsuariosController:
 
       return jsonify(resp)
     except Exception as err:
-      print(err)
       return jsonify(res.cod_404("Error al consultar datos"))
 
   def post(self):
@@ -81,7 +78,7 @@ class UsuariosController:
       request.json['password'],
     )
 
-      resp = setData(sql, request, "Usuario actualizado correctamente", "admin")
+      resp = setData(sql, request, "Usuario actualizado correctamente", "simple")
 
       return jsonify(resp)
     except Exception as err:
@@ -112,5 +109,4 @@ class UsuariosController:
 
       return jsonify(resp)
     except Exception as err:
-      print(err)
       return jsonify(res.cod_404("Error al eliminar usuario"))

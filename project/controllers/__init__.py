@@ -19,7 +19,7 @@ def formatText(text):
   return newText
 
 
-def obtenerTodo(sql, request, nivelValidation = None):
+def obtenerTodo(sql, request, nivelValidation = None, msgError = None, msgSuccess = None):
   try:
     if nivelValidation == "admin":
       auth = validarPermisosAdmin(request)
@@ -48,12 +48,12 @@ def obtenerTodo(sql, request, nivelValidation = None):
         result[f"{key}"] = consult[i][j]
       results.append(result)
     if results:
-      return res.cod_200(results)
-    return res.cod_404("No se encontro resultado para esta búsqueda")
+      return res.cod_200(results, msgSuccess)
+    return res.cod_404(msg = msgError)
   except Exception as err:
     return err
 
-def obtenerUno(sql, request, nivelValidation = None, id=0):
+def obtenerUno(sql, request, nivelValidation = None, msgError = None, msgSuccess=None):
   try:
     if nivelValidation == "admin":
       auth = validarPermisosAdmin(request)
@@ -77,13 +77,13 @@ def obtenerUno(sql, request, nivelValidation = None, id=0):
         for j in range(0, numColumnas):
           key = formatText(columnaMain[j][0])
           result[f"{key}"] = consult[j]
-      return res.cod_200(result)
+      return res.cod_200(result, msg=msgSuccess)
 
-    return res.cod_406(f"No se encontro un usuario con el id {id}")
+    return res.cod_406(msgError)
   except Exception as err:
     return err
 
-def setData(sql, request, msgPer ,nivelValidation = None):
+def setData(sql, request, msgPer ,nivelValidation = None, msgError = None):
   try:
     if nivelValidation == "admin":
       auth = validarPermisosAdmin(request)
@@ -96,13 +96,13 @@ def setData(sql, request, msgPer ,nivelValidation = None):
 
     cur = mysql.connection.cursor()
     affect = cur.execute(sql)
+    #print(cur.lastrowid)
     mysql.connection.commit()
     if affect:
       return res.cod_200(msgPer)
-    raise Exception
+    return res.cod_400(msgError)
   except Exception as err:
     return err
-
 
 #NivelValidacion: admin
 def validarPermisosAdmin(request):

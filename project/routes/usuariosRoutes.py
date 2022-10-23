@@ -8,9 +8,9 @@ user = Blueprint('user', __name__, url_prefix="/user")
 usuariosC = usuariosController.UsuariosController()
 
 # get -- api/user
-# get -- api/user/<int: activo>
+# get -- api/user/filtrar-activos/<int: activo>
 @user.route('/', methods=["GET"])
-@user.route('/<int:activoStatus>', methods=["GET"])
+@user.route('/filtrar-activos/<int:activoStatus>', methods=["GET"])
 def getAll(activoStatus = None): return usuariosC.getAll(activoStatus)
 
 # get -- api/user/int
@@ -18,8 +18,8 @@ def getAll(activoStatus = None): return usuariosC.getAll(activoStatus)
 def getOne(id): return usuariosC.getOne(id)
 
 # GET -- api/user/semanas/<int>
-@user.route('/inactivos/<int:semanas>')
-@user.route('/inactivos/<int:semanas>/<orden>')
+@user.route('/inactivos-por-semana/<int:semanas>')
+@user.route('/inactivos-por-semana/<int:semanas>/<orden>')
 def getForWeeks(semanas, orden = "ASC"): return usuariosC.getForWeeks(semanas, orden)
 
 # POST -- api/user
