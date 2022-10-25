@@ -8,7 +8,7 @@ class DireccionesController:
   def getAll(self):
     try:
       sql = "call eccomerce.getAddress(null)"
-      resp = obtenerTodo(sql,request, "admin")
+      resp = obtenerTodo(sql,request, None)
       return jsonify(resp)
     except Exception as err:
       return jsonify(res.cod_404("Error al obtener los datos"))
@@ -17,7 +17,7 @@ class DireccionesController:
     try:
       sql = f"call eccomerce.getAddress({idUsuario})"
 
-      resp = obtenerTodo(sql,request,'simple', msgError="Direcciones no encontradas para este usuario")
+      resp = obtenerTodo(sql,request,None, msgError="Direcciones no encontradas para este usuario")
       
       return jsonify(resp)
     except Exception as err:
@@ -58,7 +58,7 @@ class DireccionesController:
       sql = "INSERT INTO ciudades (ciudad, id_estado) VALUE ('{0}', '{1}')".format(request.json['ciudad'],
       request.json['idEstado'])
 
-      resp = setData(sql, request, "ciudad agregada correctamente", "admin")
+      resp = setData(sql, request, "ciudad agregada correctamente", None)
       return jsonify(resp)
     except Exception as ex:
       return jsonify(res.cod_404("Error al registrar ciudad"))
@@ -68,7 +68,7 @@ class DireccionesController:
       sql = "INSERT INTO estados (estado, id_pais) VALUE ('{0}', '{1}')".format(request.json['estado'],
       request.json['idPais'])
 
-      resp = setData(sql, request, "estado agregado correctamente", "admin")
+      resp = setData(sql, request, "estado agregado correctamente", None)
       return jsonify(resp)
     except Exception as ex:
       return jsonify(res.cod_404("Error al registrar estado"))
@@ -77,7 +77,7 @@ class DireccionesController:
     try:
       sql = "INSERT INTO paises (pais) VALUE ('{0}')".format(request.json['pais'])
 
-      resp = setData(sql, request, "pais agregado correctamente", "admin")
+      resp = setData(sql, request, "pais agregado correctamente", None)
       return jsonify(resp)
     except Exception as ex:
       return jsonify(res.cod_404("Error al registrar pais"))
@@ -95,7 +95,7 @@ class DireccionesController:
         request.json["idCiudad"]
       )
 
-      resp = setData(sql, request, "dirección agregada correctamente", "simple")
+      resp = setData(sql, request, "dirección agregada correctamente")
       return jsonify(resp)
     except Exception as ex:
       return jsonify(res.cod_404("Error al registrar dirección"))
@@ -112,7 +112,7 @@ class DireccionesController:
         request.json["idDireccion"],
       )
 
-      resp = setData(sql, request, msgPer="Direccion actualizada correctamente", nivelValidation="simple")
+      resp = setData(sql, request, msgPer="Direccion actualizada correctamente")
 
       return jsonify(resp)
     except Exception as err:
@@ -123,7 +123,7 @@ class DireccionesController:
     try:
       sql = f"DELETE FROM direcciones WHERE id_direccion = {request.json['idDireccion']}"
 
-      resp = setData(sql, request, f'La direccion con id {request.json["idDireccion"]} se elimino con éxito', 'simple')
+      resp = setData(sql, request, f'La direccion con id {request.json["idDireccion"]} se elimino con éxito')
 
       return jsonify(resp)
     except Exception as err:

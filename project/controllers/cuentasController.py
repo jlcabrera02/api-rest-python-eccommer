@@ -8,7 +8,7 @@ class CuentasController:
   def getCuentas(self):
     try:
       sql = "call eccomerce.getCuentas(null)"
-      resp = obtenerTodo(sql,request, 'admin', "No se encontro resultado en cuentas")
+      resp = obtenerTodo(sql,request, None, "No se encontro resultado en cuentas")
       return jsonify(resp)
     except Exception as err:
       return jsonify(res.cod_404("Error al obtener las cuentas"))
@@ -16,7 +16,7 @@ class CuentasController:
   def getCuenta(self, idUsuario):
     try:
       sql = f"call eccomerce.getCuentas({idUsuario})"
-      resp = obtenerTodo(sql,request, 'simple', "El usuario no tiene cuentas aún")
+      resp = obtenerTodo(sql,request, None, "El usuario no tiene cuentas aún")
       return jsonify(resp)
     except Exception as err:
       return jsonify(res.cod_404("Error al obtener la cuenta"))
@@ -30,7 +30,7 @@ class CuentasController:
         request.json['tipoCuenta'],
         request.json['idUsuario']
       )
-      resp = setData(sql,request, "Se agrego correctamente la cuenta para el usuario", 'simple')
+      resp = setData(sql,request, "Se agrego correctamente la cuenta para el usuario")
       return jsonify(resp)
     except Exception as err:
       return jsonify(res.cod_404("Error al establecer la cuenta"))
@@ -44,7 +44,7 @@ class CuentasController:
         request.json['tipoCuenta'],
         request.json['idBanco']
       )
-      resp = setData(sql,request, "Se actualizo la cuenta para el usuario", 'simple')
+      resp = setData(sql,request, "Se actualizo la cuenta para el usuario")
       return jsonify(resp)
     except Exception as err:
       return jsonify(res.cod_404("Error al actulizar la cuenta"))
@@ -52,7 +52,7 @@ class CuentasController:
   def deleteCuenta(self):
     try:
       sql = "DELETE FROM cuenta WHERE id_banco = {0}".format(request.json["idBanco"])
-      resp = setData(sql,request, "Se elimino la cuenta para el usuario", 'simple')
+      resp = setData(sql,request, "Se elimino la cuenta para el usuario")
       return jsonify(resp)
     except Exception as err:
       return jsonify(res.cod_404("Error al eliminar la cuenta"))

@@ -11,7 +11,7 @@ class UsuariosController:
       sql = "SELECT id_usuario, nombres, apellido_paterno, apellido_materno, activo, usuario, fecha_registro, ultima_fecha_ingreso, rol FROM usuarios"
       if activoStatus != None:
         sql += f" WHERE activo = '{activoStatus}'"
-      resp = obtenerTodo(sql,request,"admin")
+      resp = obtenerTodo(sql,request)
       return jsonify(resp)
     except Exception as err:
       return jsonify(res.cod_404("Error al obtener los datos"))
@@ -20,7 +20,7 @@ class UsuariosController:
     try:
       sql = f"SELECT id_usuario, nombres, apellido_paterno, apellido_materno, activo, usuario, fecha_registro, ultima_fecha_ingreso, rol FROM usuarios WHERE id_usuario = {id}"
 
-      resp = obtenerUno(sql,request,'simple', msgError=f"No se encontro un usuario con el id {id}", msgSuccess="Usuario encontrado")
+      resp = obtenerUno(sql,request,None, msgError=f"No se encontro un usuario con el id {id}", msgSuccess="Usuario encontrado")
       
       return jsonify(resp)
     except Exception as err:
@@ -31,7 +31,7 @@ class UsuariosController:
     try:
       sql =f"SELECT  id_usuario, nombres, apellido_paterno, apellido_materno, activo, usuario, fecha_registro, ultima_fecha_ingreso, rol  FROM usuarios WHERE ultima_fecha_ingreso < '{formatearTiempo(semanas)}' ORDER BY ultima_fecha_ingreso {orden}"
 
-      resp = obtenerTodo(sql,request,'admin')
+      resp = obtenerTodo(sql,request)
       if resp["statusText"] == 'false':
         return jsonify(resp)
 
@@ -78,7 +78,7 @@ class UsuariosController:
       request.json['password'],
     )
 
-      resp = setData(sql, request, "Usuario actualizado correctamente", "simple")
+      resp = setData(sql, request, "Usuario actualizado correctamente")
 
       return jsonify(resp)
     except Exception as err:
@@ -95,7 +95,7 @@ class UsuariosController:
           sql += f" OR id_usuario = {r['id']}"
         index = index + 1
       
-      resp = setData(sql, request, f"{len(request.json)} usuarios afectados", "admin")
+      resp = setData(sql, request, f"{len(request.json)} usuarios afectados")
 
       return jsonify(resp)
     except:
@@ -105,7 +105,7 @@ class UsuariosController:
     try:
       sql = f"DELETE FROM usuarios WHERE id_usuario = {request.json['id']} AND usuario = '{request.json['usuario']}'"
 
-      resp = setData(sql, request, f'El usuario con id {request.json["id"]} se elimino con éxito', 'admin')
+      resp = setData(sql, request, f'El usuario con id {request.json["id"]} se elimino con éxito')
 
       return jsonify(resp)
     except Exception as err:

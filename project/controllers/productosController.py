@@ -33,7 +33,7 @@ class ProductosController:
   def getMyProducts(self, idUsuario):
     try:
       sql = f"call eccomerce.getProduct({idUsuario}, 'xve')"
-      resp = obtenerTodo(sql,request, 'simple', msgError="El usuario no tiene productos aún")
+      resp = obtenerTodo(sql,request, msgError="El usuario no tiene productos aún")
       return jsonify(resp)
     except Exception as err:
       return jsonify(res.cod_404("Error al obtener los productos del usuario"))
@@ -61,7 +61,7 @@ class ProductosController:
       token = validate_token(request.headers["Authorization"], True)
 
       if token['idUsuario'] == request.json['idVendedor']:
-        resp = setData(sql,request, "Se agrego correctamente la cuenta para el usuario", 'simple')
+        resp = setData(sql,request, "Se agrego correctamente la cuenta para el usuario")
       else:
         resp = res.cod_400("El id no coincide con las ")
         
@@ -83,7 +83,7 @@ class ProductosController:
       token = validate_token(request.headers["Authorization"], True)
 
       if token['idUsuario'] == request.json['idVendedor']:
-        resp = setData(sql,request, "Se agrego correctamente la cuenta para el usuario", 'simple')
+        resp = setData(sql,request, "Se agrego correctamente la cuenta para el usuario")
       else:
         resp = res.cod_400("El id no coincide con las ")
         
@@ -94,7 +94,7 @@ class ProductosController:
   def deleteProducto(self):
     try:
       sql = "DELETE FROM productos WHERE id_producto = {0}".format(request.json["idProducto"])
-      resp = setData(sql,request, "Se elimino el producto", 'simple')
+      resp = setData(sql,request, "Se elimino el producto")
       return jsonify(resp)
     except Exception as err:
       return jsonify(res.cod_404("Error al eliminar producto"))
