@@ -57,16 +57,12 @@ class ProductosController:
         request.json['idVendedor'],
         request.json['idSubcategoria']
       )
+      print(sql)
 
-      token = validate_token(request.headers["Authorization"], True)
-
-      if token['idUsuario'] == request.json['idVendedor']:
-        resp = setData(sql,request, "Se agrego correctamente la cuenta para el usuario")
-      else:
-        resp = res.cod_400("El id no coincide con las ")
-        
+      resp = setData(sql,request, "Se agrego correctamente la cuenta para el usuario")
       return jsonify(resp)
     except Exception as err:
+      print(err)
       return jsonify(res.cod_404("Error al establecer la cuenta"))
   
   def putProducto(self):

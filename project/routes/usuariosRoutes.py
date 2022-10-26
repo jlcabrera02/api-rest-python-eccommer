@@ -1,10 +1,14 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from project import responses
 from project.controllers import usuariosController
+from flask_cors import CORS, cross_origin
 
 res = responses.Responses()
 
-user = Blueprint('user', __name__, url_prefix="/user")
+user = Blueprint('user', __name__)
+
+CORS(user)
+
 usuariosC = usuariosController.UsuariosController()
 
 # get -- api/user
@@ -24,8 +28,13 @@ def getForWeeks(semanas, orden = "ASC"): return usuariosC.getForWeeks(semanas, o
 
 # POST -- api/user
 @user.route('/', methods=['POST'])
-def post(): return usuariosC.post()
-
+@cross_origin()
+def post(): 
+  try:
+    print("joal")
+    print(request.json)
+  except Exception as err:
+    print(err)
 # PUT -- api/user/actualizar
 @user.route('/actualizar', methods=['PUT'])
 def putUser(): return usuariosC.putUser()

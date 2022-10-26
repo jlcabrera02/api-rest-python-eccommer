@@ -1,6 +1,6 @@
 from project.utils.token import validate_token
 from flask import jsonify
-from project import mysql
+#from project import mysql
 from project import responses
 
 
@@ -19,17 +19,8 @@ def formatText(text):
   return newText
 
 
-def obtenerTodo(sql, request, nivelValidation = None, msgError = None, msgSuccess = None):
+def obtenerTodo(mysql, sql, msgError = None, msgSuccess = None):
   try:
-    if nivelValidation == "admin":
-      auth = validarPermisosAdmin(request)
-      if auth != True:
-        return auth
-    if nivelValidation == "simple":
-      auth = validacionSimple(request)
-      if auth != True:
-        return auth
-
     cur = mysql.connection.cursor()
     cur.execute(sql)
 
@@ -83,27 +74,18 @@ def obtenerUno(sql, request, nivelValidation = None, msgError = None, msgSuccess
   except Exception as err:
     return err
 
-def setData(sql, request, msgPer ,nivelValidation = None, msgError = None):
+def setData(mysql, sql, msgError = None, msgSuccess = None):
   try:
-    if nivelValidation == "admin":
-      auth = validarPermisosAdmin(request)
-      if auth != True:
-        return auth
-    if nivelValidation == "simple":
-      auth = validacionSimple(request)
-      if auth != True:
-        return auth
-
     cur = mysql.connection.cursor()
     affect = cur.execute(sql)
     #print(cur.lastrowid)
     mysql.connection.commit()
     if affect:
-      return res.cod_200(msgPer)
+      return res.cod_200(msgSuccess)
     return res.cod_400(msgError)
   except Exception as err:
     return err
-
+""" 
 #NivelValidacion: admin
 def validarPermisosAdmin(request):
   if "Authorization" not in request.headers:
@@ -127,3 +109,4 @@ def validacionSimple(request):
   if validacion['valid'] == False:
     return validacion
   return True
+ """

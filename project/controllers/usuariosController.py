@@ -44,27 +44,19 @@ class UsuariosController:
 
   def post(self):
     try:
-      user="user"
-      if "rol" in request.json:
-        auth = validarPermisosAdmin(request)
-        if auth != True:
-          return auth
-        else:
-          if request.json['rol'] != "admin" :
-            return res.cod_400("Tipo de rol no admitido, los roles admitidos son ['user', 'admin']")
-          user = request.json['rol']
-
       sql = "INSERT INTO usuarios (nombres, apellido_paterno, apellido_materno, activo, usuario, password, fecha_registro, ultima_fecha_ingreso, rol) VALUE ('{0}', '{1}', '{2}', 1, '{3}', MD5('{4}'), now(), now(), '{5}')".format(request.json['nombres'],
       request.json['apellidoPaterno'],
       request.json['apellidoMaterno'],
       request.json['usuario'],
       request.json['password'],
-      user
+      request.json['rol'],
       )
+      print(sql)
 
       resp = setData(sql, request, "Usuario creado correctamente")
       return jsonify(resp)
     except Exception as ex:
+      print(ex)
       return jsonify(res.cod_404("Error al registrar usuario"))
 
   def putUser(self):
