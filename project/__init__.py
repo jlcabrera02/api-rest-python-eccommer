@@ -29,7 +29,7 @@ def index():
     print(err)
     return err """
 
-@app.route('/api/user', methods=['GET'])
+@app.route('/api/user/', methods=['GET'])
 @cross_origin()
 def getUsers():
   try:
@@ -39,7 +39,7 @@ def getUsers():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/user', methods=['POST'])
+@app.route('/api/user/', methods=['POST'])
 @cross_origin()
 def postUsers():
   try:
@@ -56,7 +56,7 @@ def postUsers():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/user', methods=['PUT'])
+@app.route('/api/user/', methods=['PUT'])
 @cross_origin()
 def putUsers():
   try:
@@ -74,7 +74,7 @@ def putUsers():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/user', methods=['DELETE'])
+@app.route('/api/user/', methods=['DELETE'])
 @cross_origin()
 def delUsers():
   try:
@@ -85,7 +85,7 @@ def delUsers():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/cuentas', methods=['GET'])
+@app.route('/api/cuentas/', methods=['GET'])
 @cross_origin()
 def getCuenta():
   try:
@@ -95,7 +95,7 @@ def getCuenta():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/cuentas', methods=['POST'])
+@app.route('/api/cuentas/', methods=['POST'])
 @cross_origin()
 def postCuenta():
   try:
@@ -111,7 +111,7 @@ def postCuenta():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/cuentas', methods=['PUT'])
+@app.route('/api/cuentas/', methods=['PUT'])
 @cross_origin()
 def putCuenta():
   try:
@@ -127,7 +127,7 @@ def putCuenta():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/cuentas', methods=['DELETE'])
+@app.route('/api/cuentas/', methods=['DELETE'])
 @cross_origin()
 def delCuenta():
   try:
@@ -167,7 +167,7 @@ def getDireccionesPais():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/address', methods=['GET'])
+@app.route('/api/address/', methods=['GET'])
 @cross_origin()
 def getDirecciones():
   try:
@@ -177,7 +177,7 @@ def getDirecciones():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/address', methods=['POST'])
+@app.route('/api/address/', methods=['POST'])
 @cross_origin()
 def postDireccion():
   try:
@@ -196,7 +196,7 @@ def postDireccion():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/address', methods=['PUT'])
+@app.route('/api/address/', methods=['PUT'])
 @cross_origin()
 def putDireccion():
   try:
@@ -214,7 +214,7 @@ def putDireccion():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/address', methods=['DELETE'])
+@app.route('/api/address/', methods=['DELETE'])
 @cross_origin()
 def delDireccion():
   try:
