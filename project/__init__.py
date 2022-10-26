@@ -88,7 +88,7 @@ def putUsers():
 @cross_origin()
 def delUsers(id):
   try:
-    sql = f"DELETE FROM usuarios WHERE id_usuario = {id} AND usuario = '{request.json['usuario']}'"
+    sql = f"DELETE FROM usuarios WHERE id_usuario = {id}"
 
     resp = setData(mysql, sql, "No se pudo eliminar usuario", "Eliminado")
     return jsonify(resp)
