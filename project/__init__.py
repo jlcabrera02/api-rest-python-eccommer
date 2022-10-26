@@ -39,6 +39,16 @@ def getUsers():
   except Exception as err:
     return jsonify(res.cod_400())
 
+@app.route('/api/user/<int:id>', methods=['GET'])
+@cross_origin()
+def getUsersxId(id):
+  try:
+    sql = f"SELECT id_usuario, nombres, apellido_paterno, apellido_materno, activo, usuario, fecha_registro, ultima_fecha_ingreso, rol FROM usuarios WHERE id = {id}"
+    resp = obtenerTodo(mysql, sql, "Error al consultar", "Correcto")
+    return jsonify(resp)
+  except Exception as err:
+    return jsonify(res.cod_400())
+
 @app.route('/api/user', methods=['POST'])
 @cross_origin()
 def postUsers():
@@ -74,11 +84,11 @@ def putUsers():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/user', methods=['DELETE'])
+@app.route('/api/user/delete/<int:id>', methods=['DELETE'])
 @cross_origin()
-def delUsers():
+def delUsers(id):
   try:
-    sql = f"DELETE FROM usuarios WHERE id_usuario = {request.json['id']} AND usuario = '{request.json['usuario']}'"
+    sql = f"DELETE FROM usuarios WHERE id_usuario = {id} AND usuario = '{request.json['usuario']}'"
 
     resp = setData(mysql, sql, "No se pudo eliminar usuario", "Eliminado")
     return jsonify(resp)
@@ -90,6 +100,16 @@ def delUsers():
 def getCuenta():
   try:
     sql = "call eccomerce.getCuentas(null)"
+    resp = obtenerTodo(mysql, sql, "Error al consultar", "Correcto")
+    return jsonify(resp)
+  except Exception as err:
+    return jsonify(res.cod_400())
+
+@app.route('/api/cuentas/<int:idUsuario>', methods=['GET'])
+@cross_origin()
+def getCuentaXusuario(idUsuario):
+  try:
+    sql = f"call eccomerce.getCuentas({idUsuario})"
     resp = obtenerTodo(mysql, sql, "Error al consultar", "Correcto")
     return jsonify(resp)
   except Exception as err:
@@ -127,11 +147,11 @@ def putCuenta():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/cuentas', methods=['DELETE'])
+@app.route('/api/cuentas/delete/<int:id>', methods=['DELETE'])
 @cross_origin()
-def delCuenta():
+def delCuenta(id):
   try:
-    sql = "DELETE FROM cuenta WHERE id_banco = {0}".format(request.json["idBanco"])
+    sql = f"DELETE FROM cuenta WHERE id_banco = {id}"
     resp = setData(mysql, sql, "No se pudo borrar cuenta", "Se elimino cuenta correctamente")
     return jsonify(resp)
   except Exception as err:
@@ -177,6 +197,26 @@ def getDirecciones():
   except Exception as err:
     return jsonify(res.cod_400())
 
+@app.route('/api/address/usuario/<int:idUsuario>', methods=['GET'])
+@cross_origin()
+def getDireccionesxidUsuario(idUsuario):
+  try:
+    sql = f"call eccomerce.getAddress({idUsuario})"
+    resp = obtenerTodo(mysql, sql, "Error al consultar", "Correcto")
+    return jsonify(resp)
+  except Exception as err:
+    return jsonify(res.cod_400())
+
+@app.route('/api/address/<int:id>', methods=['GET'])
+@cross_origin()
+def getDireccionesxId(id):
+  try:
+    sql = f"call eccomerce.getAddressxid({id})"
+    resp = obtenerTodo(mysql, sql, "Error al consultar", "Correcto")
+    return jsonify(resp)
+  except Exception as err:
+    return jsonify(res.cod_400())
+
 @app.route('/api/address', methods=['POST'])
 @cross_origin()
 def postDireccion():
@@ -214,11 +254,11 @@ def putDireccion():
   except Exception as err:
     return jsonify(res.cod_400())
 
-@app.route('/api/address', methods=['DELETE'])
+@app.route('/api/address/delete/<int:id>', methods=['DELETE'])
 @cross_origin()
-def delDireccion():
+def delDireccion(id):
   try:
-    sql = f"DELETE FROM direcciones WHERE id_direccion = {request.json['idDireccion']}"
+    sql = f"DELETE FROM direcciones WHERE id_direccion = {id}"
     resp = setData(mysql, sql, "No se pudo eliminar direccion", "Eliminar direccion exitosa")
     return jsonify(resp)
   except Exception as err:
